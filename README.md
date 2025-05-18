@@ -255,13 +255,13 @@ While `printf` writes to `stdout` by default, `fprintf` allows us to target any 
 
 ## 3) Questions
 
-1. What is the difference between `printf` and `fprintf`, and why might you use one over the other?
+1. What is the difference between `printf` and `fprintf`, and why might you use one over the other? Printf is used to give a string to the terminal output, fprintf is used to give a string to a file. fprintf is a more universal version of printf, you are also able to print a string to the terminal.
 
-2. What are file descriptors `0`, `1`, and `2` in POSIX systems, and what streams do they correspond to?
+2. What are file descriptors `0`, `1`, and `2` in POSIX systems, and what streams do they correspond to? file descriptor 0 stands for standard input stdin, it's often used for the keyboard buffer. 1 stands for stdout and it stands for the standard out put wich ist the output terminal buffer. 2 Stands for stderr wich is used to giveout errors, however the error output gest also in most cases displayed on the terminal.
 
-3. How does the `write` system call work at the register level, and what values must be placed in which registers before calling `syscall`?
+3. How does the `write` system call work at the register level, and what values must be placed in which registers before calling `syscall`? First step of the write syscall is that the kernal invoke for write gets defined (rax, 1). You can understand this as the function of the syscall that gets executet. next information is the file descriptor, for example rdi,r12. This file descriptor tells where the call should be done. In our case r12 tells the kernal where to write. The next important parameter is the Adress from where the kernal shauld write. The Pointer is a adress that points directly on the first character of our message. (lea rsi, [rel message]) lea stands for load effective adress.. The last step thats needed before we could execute our syscall is the information how long the kernal shauld write to our target, This is done with rdx, msg_len. This variable contains the value of bits of our message. After these steps our syscall is ready to be executed.
 
-4. What do the flags `O_WRONLY`, `O_CREAT`, and `O_TRUNC` mean, and how are they combined when opening a file?
+4. What do the flags `O_WRONLY`, `O_CREAT`, and `O_TRUNC` mean, and how are they combined when opening a file? The o_WRONLY flag is used for the open syscall, this argument defines the rights that are used when opening the file, in this case write only. 0_Creast is used to create the file of the fd if it isn't created. 0_Trunc does delet the hole data of the file if there is any data when opening. 
 
 5. How does `fprintf` internally relate to system calls like `write` — what layers exist between user code and the kernel?
 
